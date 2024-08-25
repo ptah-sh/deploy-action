@@ -1,0 +1,22 @@
+name: "Deploy Service to Ptah.sh"
+description: "Launches a new deployment to the Docker Swarm cluster managed by Ptah.sh"
+inputs:
+  apiKey:
+    description: "API Key for authentication"
+    required: true
+  service:
+    description: "The service to deploy"
+    required: true
+  processes:
+    description: "YAML array containing process configurations"
+    required: true
+  serverAddress:
+    description: "Custom server address (optional)"
+    required: false
+    default: "https://ctl.ptah.sh"
+outputs:
+  deploymentId:
+    description: "The ID of the initiated deployment"
+runs:
+  using: node20
+  main: "index.js"
