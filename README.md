@@ -55,8 +55,8 @@ jobs:
           - name: svc
             dockerImage: my-service:${{ github.sha }}
             envVars:
-              - name: ENV
-                value: production
+              - name: SENTRY_VERSION
+                value: ${{ github.sha }}
       id: deploy
     - name: Get the deployment ID
       run: echo "The deployment ID is ${{ steps.deploy.outputs.deploymentId }}"
