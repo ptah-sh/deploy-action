@@ -39,23 +39,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build -t my-service:${{ github.sha }} .
+
+    - name: Push Docker image
+      run: docker push my-service:${{ github.sha }}
+
     - name: Deploy to Ptah.sh
-      uses: your-username/ptah-deploy-action@v1
+      uses: ptah-sh/deploy-action@v1
       with:
-        serverAddress: 'http://localhost:8000'  # Optional: Use a custom server address
         apiKey: ${{ secrets.PTAH_API_KEY }}
         service: 'my-service-slug'
         processes: |
-          - name: web
-            dockerImage: nginx:latest
+          - name: svc
+            dockerImage: my-service:${{ github.sha }}
             envVars:
               - name: ENV
                 value: production
-          - name: api
-            dockerImage: node:14
-            envVars:
-              - name: DATABASE_URL
-                value: ${{ secrets.DATABASE_URL }}
       id: deploy
     - name: Get the deployment ID
       run: echo "The deployment ID is ${{ steps.deploy.outputs.deploymentId }}"
