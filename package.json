@@ -1,6 +1,6 @@
 {
   "name": "@ptah-sh/deploy-action",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A GitHub action to deploy services to Ptah.sh",
   "main": "dist/index.js",
   "scripts": {
