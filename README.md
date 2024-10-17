@@ -53,7 +53,9 @@ jobs:
         service: 'my-service-slug'
         processes: |
           - name: svc
-            dockerImage: my-service:${{ github.sha }}
+            workers:
+              - name: main
+                dockerImage: my-service:${{ github.sha }}
             envVars:
               - name: SENTRY_VERSION
                 value: ${{ github.sha }}
@@ -67,7 +69,7 @@ jobs:
 The `processes` input should be a YAML array where each item represents a process to be deployed. Each process can have the following properties:
 
 - `name` (required): The name of the process.
-- `dockerImage` (optional): The Docker image to use for this process.
+- `workers` (optional): An array of worker configurations. Each worker should have a `name` and a `dockerImage` (optional).
 - `envVars` (optional): An array of environment variables for the process. Each environment variable should have a `name` and a `value`.
 
 ## Error Handling
@@ -88,7 +90,9 @@ To test the action locally, you can use the following command:
 ```bash
 INPUT_PROCESSES=$(cat <<EOF
 - name: web
-  dockerImage: your-service:latest
+  workers:
+    - name: main
+      dockerImage: your-service:latest
   envVars:
     - name: ENV
       value: production
